@@ -7,4 +7,18 @@
 // dan menggunakan interface untuk menambahkan perilaku tambahan.
 
 public class Main {
+    public static void main(String[] args) {
+        Vehicle[] vehicles = {new LandVehicle("Toyota", 80, 100, 4),
+                              new WaterVehicle("Joysway SpeedBoat", 120, 100, true),
+                              new LandVehicle("Leopard tank", 80, 100, 9)};
+
+        for (Vehicle vehicle : vehicles) {
+            vehicle.move();
+            vehicle.calculateFuelConsumption(800);
+            if (vehicle.isFuelLow()) {
+                vehicle.refuel(30);
+                vehicle.isFuelLow();
+            }
+        }
+    }
 }

@@ -1,7 +1,8 @@
-public abstract class Vehicle{
+
+public abstract class Vehicle implements Refuelable {
     private String name;
-    private int speed;
-    private double fuelLevel;
+    private int speed; //kecepatan dalam km/jam
+    private double fuelLevel; //persentase bahan bakar
 
     public Vehicle(String name, int speed, double fuelLevel) {
         this.name = name;
@@ -22,7 +23,7 @@ public abstract class Vehicle{
     }
 
     public void setSpeed(int speed) {
-        this.speed = speed;
+        this.speed = (speed < 0) ? 0 : speed;
     }
 
     public double getFuelLevel() {
@@ -30,9 +31,11 @@ public abstract class Vehicle{
     }
 
     public void setFuelLevel(double fuelLevel) {
-        this.fuelLevel = fuelLevel;
+        this.fuelLevel = (fuelLevel < 0) ? 0 : fuelLevel;
     }
 
+    abstract void move();
+    abstract double calculateFuelConsumption(double distance    );
 
 
 }

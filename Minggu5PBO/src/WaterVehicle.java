@@ -1,31 +1,31 @@
-public class LandVehicle extends Vehicle{
+public class WaterVehicle extends Vehicle{
 
-    private int wheels;
+    private boolean hasPropeler;
 
-    public LandVehicle(String name, int speed, double fuelLevel, int wheels) {
+    public WaterVehicle(String name, int speed, double fuelLevel, boolean hasPropeler) {
         super(name, speed, fuelLevel);
-        this.wheels = (wheels < 0) ? 0 : wheels;
+        this.hasPropeler = hasPropeler;
     }
 
-    public int getWheels() {
-        return wheels;
+    public boolean getHasPropeler() {
+        return hasPropeler;
     }
 
-    public void setWheels(int wheels) {
-        this.wheels = (wheels < 0) ? 0 : wheels;
+    public void setHasPropeler(boolean hasPropeler) {
+        this.hasPropeler = hasPropeler;
     }
 
-    @Override
     void move() {
-        System.out.println(this.getName() + " is moving in land with " + getWheels() + " wheels at " + getSpeed() + " km/h");
+        String propelerOrNot = getHasPropeler() ? "propeler" : "no Propeler";
+        System.out.println(this.getName() + " is moving at water with " + propelerOrNot + " at " + getSpeed() + " km/h");
     }
 
     @Override
     double calculateFuelConsumption(double distance) {
-        System.out.print(getName() + " fuel consumption for " + distance + " km is " + distance / 10 + "%. Fuel left: ");
-        double fuelConsumed = getFuelLevel() - distance / 10 ;
+        System.out.print(getName() + " fuel consumption for " + distance + " km is " + distance / 8 + "%. Fuel left: ");
+        double fuelConsumed = getFuelLevel() - distance / 8 ;
         setFuelLevel(fuelConsumed);
-        System.out.println(fuelConsumed + "%");
+        System.out.println(fuelConsumed);
         return fuelConsumed;
     }
 
