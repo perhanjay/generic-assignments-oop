@@ -4,6 +4,7 @@ public class LandVehicle extends Vehicle{
     public LandVehicle(String name, int speed, double fuelLevel, int wheels) {
         super(name, speed, fuelLevel);
         this.wheels = (wheels < 0) ? 0 : wheels;
+        setDistanceFactor(10);
     }
 
     public int getWheels() {
@@ -24,9 +25,8 @@ public class LandVehicle extends Vehicle{
     @Override
     void powerSavingMode(){
         if (!getIsPowerSafe()) {
-            //reduce the power usage of given vehicle
             System.out.println("Switching " + getName() + " to power safe mode.");
-            setPowerSpeedDifference(getSpeed() - getSpeed() * 4/ 5); //Menghitung perbedaan kecepatan antar mode
+            setPowerSpeedDifference(getSpeed() - getSpeed() * 4/ 5);
             setSpeed(getSpeed() - getPowerSpeedDifference());
             setDistanceFactor(12);
             setIsPowerSafe(true);
@@ -49,21 +49,21 @@ public class LandVehicle extends Vehicle{
 
     @Override
     double calculateFuelConsumption(double distance) {
-        double remainingFuel = getFuelLevel() - distance / getDistanceFactor() ;
-        double actualValue;
+        double remainingFuel = Math.floor((getFuelLevel() - distance / getDistanceFactor()) * 10) / 10 ;
+        double fuelNeeded;
         if (remainingFuel < 0){
-            double whenFuelIs0 = getFuelLevel() * 10;
-            System.out.println("Your vehicle fuel will reach 0 if travelling for " + distance + "km, refuelling at "+ whenFuelIs0);
-            actualValue = 0 - remainingFuel;
-            refuel(actualValue);
-            remainingFuel = getFuelLevel() - distance / getDistanceFactor() ;
+            double whenFuelIs0 = getFuelLevel() * getDistanceFactor();
+            System.out.println("Your vehicle fuel will reach 0 if travelling for " + distance + "km, refuelling at "+ whenFuelIs0 + "km");
+            fuelNeeded = 0 - remainingFuel;
+            refuel(fuelNeeded);
+            remainingFuel = Math.floor((getFuelLevel() - distance / getDistanceFactor()) * 10) / 10 ;
         } else if (remainingFuel > 100){
-            System.out.println("Can't move negative value " + distance + "km. Fuel consumed: 0");
+            System.out.println("Can't move negative value " + distance + "km. Fuel consumed: 0%");
             return remainingFuel = getFuelLevel();
         }
         setFuelLevel(remainingFuel);
         System.out.println(getName() + " fuel consumption for " + distance + " km is "
-                        + (distance / getDistanceFactor()) + "%. Fuel left: " + remainingFuel + "%");
+                        + (Math.floor((distance / getDistanceFactor()) * 10)/10) + "%. Fuel left: " + remainingFuel + "%");
         return remainingFuel;
     }
 

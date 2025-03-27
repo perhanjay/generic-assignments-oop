@@ -5,6 +5,7 @@ public class WaterVehicle extends Vehicle{
     public WaterVehicle(String name, int speed, double fuelLevel, boolean hasPropeler) {
         super(name, speed, fuelLevel);
         this.hasPropeler = hasPropeler;
+        setDistanceFactor(8);
     }
 
     public boolean getHasPropeler() {
@@ -48,21 +49,22 @@ public class WaterVehicle extends Vehicle{
 
     @Override
     double calculateFuelConsumption(double distance) {
-        double fuelConsumed = getFuelLevel() - distance / getDistanceFactor() ;
+        double remainingFuel = Math.floor((getFuelLevel() - distance / getDistanceFactor()) * 10) / 10 ;
         double actualValue;
-        if (fuelConsumed < 0){
-            System.out.println("Your vehicle fuel will reach 0 if travelling for " + distance + "km, refuelling now");
-            actualValue = 0 - fuelConsumed;
+        if (remainingFuel < 0){
+            double whenFuelIs0 = getFuelLevel() * getDistanceFactor();
+            System.out.println("Your vehicle fuel will reach 0 if travelling for " + distance + "km, refuelling at "+ whenFuelIs0 + "km");
+            actualValue = 0 - remainingFuel;
             refuel(actualValue);
-            fuelConsumed = getFuelLevel() - distance / getDistanceFactor() ;
-        }else if (fuelConsumed > 100){
-            System.out.println("Can't move negative value " + distance + "km. Fuel consumed: 0");
-            return fuelConsumed = getFuelLevel();
+            remainingFuel = Math.floor((getFuelLevel() - distance / getDistanceFactor()) * 10) / 10 ;
+        } else if (remainingFuel > 100){
+            System.out.println("Can't move negative value " + distance + "km. Fuel consumed: 0%");
+            return remainingFuel = getFuelLevel();
         }
-        setFuelLevel(fuelConsumed);
+        setFuelLevel(remainingFuel);
         System.out.println(getName() + " fuel consumption for " + distance + " km is "
-                + (distance / getDistanceFactor()) + "%. Fuel left: " + fuelConsumed + "%");
-        return fuelConsumed;
+                + (Math.floor((distance / getDistanceFactor()) * 10)/10) + "%. Fuel left: " + remainingFuel + "%");
+        return remainingFuel;
     }
 
     @Override

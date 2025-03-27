@@ -1,9 +1,18 @@
 //tambahin
 public abstract class Vehicle implements Refuelable {
     private String name;
-    private int speed; //kecepatan dalam km/jam
-    private double fuelLevel; //persentase bahan bakar
+    private int speed;
+    private double fuelLevel;
     private boolean isPowerSafe;
+    private int powerSpeedDifference;
+    private int distanceFactor;
+
+    public Vehicle(String name, int speed, double fuelLevel) {
+        this.name = name;
+        this.speed = (speed < 0) ? 0 : speed;
+        this.fuelLevel = (fuelLevel < 0) ? 0 : fuelLevel;
+        this.isPowerSafe = false;
+    }
 
     public int getDistanceFactor() {
         return distanceFactor;
@@ -13,7 +22,6 @@ public abstract class Vehicle implements Refuelable {
         this.distanceFactor = distanceFactor;
     }
 
-    private int distanceFactor = 10;
 
     public int getPowerSpeedDifference() {
         return powerSpeedDifference;
@@ -23,8 +31,6 @@ public abstract class Vehicle implements Refuelable {
         this.powerSpeedDifference = powerSpeedDifference;
     }
 
-    private int powerSpeedDifference;
-
     public boolean getIsPowerSafe() {
         return isPowerSafe;
     }
@@ -32,18 +38,6 @@ public abstract class Vehicle implements Refuelable {
     public void setIsPowerSafe(boolean powerSafe) {
         isPowerSafe = powerSafe;
     }
-
-    public Vehicle(String name, int speed, double fuelLevel) {
-        this.name = name;
-        this.speed = speed;
-        this.fuelLevel = fuelLevel;
-        this.isPowerSafe = false;
-    }
-
-    abstract void powerSavingMode();
-    abstract void powerSavingModeOff();
-
-
 
     public String getName() {
         return name;
@@ -71,6 +65,7 @@ public abstract class Vehicle implements Refuelable {
 
     abstract void move();
     abstract double calculateFuelConsumption(double distance    );
-
+    abstract void powerSavingMode();
+    abstract void powerSavingModeOff();
 
 }
